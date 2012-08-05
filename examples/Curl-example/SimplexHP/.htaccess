@@ -1,0 +1,7 @@
+# Make PHP code look like other code types
+
+AddType application/x-httpd-php5 .asp .inc .sxhp
+AddType application/x-httpd-php .asp .inc .sxhp
+
+AddHandler application/x-httpd-php5 .asp .inc .sxhp
+AddHandler application/x-httpd-php .asp .inc .sxhp

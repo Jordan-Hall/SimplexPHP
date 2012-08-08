@@ -1,33 +1,17 @@
 <?php
-/* 
-	    All classes and fuctions made by Luno Solutions ltd
-	    © 2011 - 2012 Luno Solutions Ltd All Rights Reserved.
-	   		UK Registered Company #07870239.
-	   		
-	   		
-	The code here are to help new developers create simple secured scripts. 
-	The idea is to dum the simple PHP version down. Database connects are
-	made from PHP PDO But written in a easier from. Scripts here are made
-	from php classes built ito php LIKE PDO, MYSQL time and sums. However
-	the classes are to help create applications on facebook by builing a 
-	classess and fuctions to controll facebook PHP sdk API system. If you
-	already know PHP dont worry you can still use normal PHP on top. 
-	This is just to help you right the complex PHP in a simple form.	 
-	    
-*/
+ /**
+  * @author Jordan Hall <nukezilla@hotmail.co.uk>
+  * @Acknowledge S.C. Chen <http://sourceforge.net/projects/simplehtmldom/>
+  * @Contributions Bennett Treptow <Upload class>
+  * @version 0.1
+  * @copyright 2012 SimplexPHP
+  * 
+  */
 
-/*----------------------------------------------------------------------------------------------------------*/
 
 class email {
-	public function spamblock($sender){
-	$sender =  stripslashes(trim(filter_var($sender, FILTER_SANITIZE_EMAIL)));
-	if (filter_var($sender, FILTER_VALIDATE_EMAIL)) {
-	 $this->spam = true;
-	} Else {
-	 $this->spam = false;
-	} 
-	}
-	public function send($youremail,$sender,$subject,$message){
+	public function __construct($youremail,$sender,$subject,$message)
+	{
 	$this->spamblock($sender);
 	  if ($this->spam==false)
 	    {
@@ -42,7 +26,15 @@ class email {
 	    $message, "From: $sender" );
 	    return "Sent";
 	    }
+        }
+	public function spamblock($sender){
+	$sender =  stripslashes(trim(filter_var($sender, FILTER_SANITIZE_EMAIL)));
+	if (filter_var($sender, FILTER_VALIDATE_EMAIL)) {
+	 $this->spam = true;
+	} Else {
+	 $this->spam = false;
 	} 
+	}
 } 
      
 
@@ -117,18 +109,66 @@ class email {
   Do not repost or claim as own
 */   
 class fbbase {
+public $facebook;
+
 //Now lets set the application ID's to read from facebook
- public function applcationID($appId,$secret){
- include("src/facebook.php");
- $config = array(
-  'appId' => $appId,
-  'secret' => $secret,
-  );
-  $facebook = $this->connect;
- }
-public function basicuser() {
-    include("src/facebook.php");
-    $facebook = $this->connect;
+public function __construct($appId,$secret,$params,$site,$needliked)
+	{
+	 $config = array(
+	  'appId' => $appId,
+	  'secret' => $secret,
+	  );
+	  $this->facebook = new Facebook($config);
+	  if($needliked = "yes") {
+	  if($signed_request = $this->parsePageSignedRequest()) {
+	  	  $this->basicuser(new Facebook($config)); 
+	  } 
+	  }
+ 	 $facebook = new Facebook($config);
+  	 $user_id = $facebook->getUser();
+
+
+	
+
+	$user = $facebook->getUser();
+	if ($user) {
+	  try {
+	    $user_profile = $facebook->api('/me');
+	  } catch (FacebookApiException $e) {
+	    error_log($e);
+	    $user = null;
+	  }
+	}
+	
+	
+	
+	$loginUrl = $facebook->getLoginUrl($params);
+	
+	if (!$user) {
+        echo "<script type='text/javascript'>top.location.href = '$loginUrl';</script>";
+
+    } Else {
+    $logoutUrl = $facebook->getLogoutUrl();
+    }
+    if($needliked = "no") {
+	$this->basicuser(new Facebook($config)); 
+    }
+        }
+        
+function parsePageSignedRequest() {
+    if (isset($_REQUEST['signed_request'])) {
+      $encoded_sig = null;
+      $payload = null;
+      list($encoded_sig, $payload) = explode('.', $_REQUEST['signed_request'], 2);
+      $sig = base64_decode(strtr($encoded_sig, '-_', '+/'));
+      $data = json_decode(base64_decode(strtr($payload, '-_', '+/'), true));
+      return $data;
+    }
+    return false;
+  }
+        
+public function basicuser($facebook) {
+
     $user = $facebook->getUser();
     $user_profile = $facebook->api('/me');
     $access_token = $facebook->getAccessToken();
@@ -168,14 +208,12 @@ public function basicuser() {
  public function getpicture() {
     return  $this->picture;
     }
-
 public function aboutuser() {
-    include("src/facebook.php");
-    $facebook = $this->connect;
+    
+    $facebook = $this->facebook;
     $user = $facebook->getUser();
     $user_profile = $facebook->api('/me');
     $access_token = $facebook->getAccessToken();
-    $this->birthday = "".$user_profile['birthday']."";
     $this->timezone = "".$user_profile['timezone']."";
     $this->verified = "".$user_profile['verified']."";
     $this->updated_time = "".$user_profile['updated_time']."";
@@ -191,9 +229,7 @@ public function aboutuser() {
     $this->townlatitude = "".$Hometown['latitude']."";
     $this->longitude = "".$Hometown['longitude']."";
  }
-   public function getbirthday() {    
-    return  $this->birthday;
-    }
+
  public function getGMT() {
     return  $this->timezone;
     }
@@ -232,23 +268,23 @@ public function aboutuser() {
     return  "".$Hometown['longitude']."";
     }
  public function createalbum($name,$info) {
- include("src/facebook.php");
- $facebook = $this->connect;
+ 
+ $facebook = $this->facebook;
  $album = array(
   'message'=> $name,
   'name'=> '$info'
     );
-    $facebook = $this->connect;
+    $facebook = $this->facebook;
     $create_album = $facebook->api('/me/albums', 'post', $album);
   $this->albumid = $create_album['id'];
  }
 
  public function imgupload($message,$tag,$img) {
-     include("src/facebook.php");
- $facebook = $this->connect;
+     
+ $facebook = $this->facebook;
   if ($tag=="yes")
   {
-  require_once("tag.php");
+  require_once("simplex.facebook.tag.php");
   $photoinfo = array(
   'message'=> $message,  
   'tags' => $data,
@@ -275,10 +311,12 @@ public function aboutuser() {
   'link' => $link, 
   'name' => $name,
 );
-  $facebook = $this->connect;
+  $facebook = $this->facebook;
   $facebook->api("/me/feed", 'post', $Wallpost);
   }    
 }
+
+
   
 /* 
  	xbox gamertag class coded by Jordan

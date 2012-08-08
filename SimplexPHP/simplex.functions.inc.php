@@ -1,28 +1,20 @@
-<?
-/* 
-	    All classes and fuctions made by Luno Solutions ltd
-	    © 2011 - 2012 Luno Solutions Ltd All Rights Reserved.
-	   		UK Registered Company #07870239.
-	   		
-	   		
-	The code here are to help new developers create simple secured scripts. 
-	The idea is to dum the simple PHP version down. Database connects are
-	made from PHP PDO But written in a easier from. Scripts here are made
-	from php functions built ito php LIKE PDO, MYSQL time and sums. However
-	the classes are to help create applications on facebook by builing a 
-	classess and fuctions to controll facebook PHP sdk API system. If you
-	already know PHP dont worry you can still use normal PHP on top. 
-	This is just to help you right the complex PHP in a simple form.	 
-	    
-*/
+<?php
+ /**
+  * @author Jordan Hall <nukezilla@hotmail.co.uk>
+  * @Acknowledge S.C. Chen <http://sourceforge.net/projects/simplehtmldom/>
+  * @Contributions Bennett Treptow <Upload class>
+  * @version 0.1
+  * @copyright 2012 SimplexPHP
+  */
 
-/*----------------------------------------------------------------------------------------------------------*/
 
-/* 
- 	Copyright class coded by Jordan
- 	This is a simple function to add copyright into your website
-   	Do not repost or claim as own
-*/
+
+
+ /**
+  * @param $name is the name of the site.
+  * @return  copyright statment:  © (year file was created) - (current year) $name - All Rights Reserved
+  * @example copyright($site)
+  */
         function copyright($name) {  
         if (date("Y") > date("Y", filemtime(__FILE__)))  {
          echo "&copy; ". $creation . "-" .date("y")." ".$name." - All Rights Reserved"; 
@@ -31,6 +23,11 @@
          }
         }
         
+        
+        
+        function getip() {
+        	return $_SERVER['REMOTE_ADDR'];
+        }
         function downloadfromweb($URL,$file) { 
         $ch = curl_init(); 
         curl_setopt ($ch, CURLOPT_URL, $URL); 
@@ -98,7 +95,7 @@ $file = "hahahpost.html";
 	$params = array();
 	foreach($data as $key=>$value) { array_push($params, $key.'='.$value); }
 	$params = implode('&', $params);
-	
+
 	$ch = curl_init($url);
 	curl_setopt($ch,CURLOPT_USERAGENT,'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.6) Gecko/20070725 Firefox/2.0.0.6'); 
 	curl_setopt ($ch, CURLOPT_COOKIEFILE, "yourcookie.text");

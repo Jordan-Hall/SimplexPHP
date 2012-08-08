@@ -1,7 +1,14 @@
-<?
+<?php
+ /**
+  * @author Jordan Hall <nukezilla@hotmail.co.uk>
+  * @Acknowledge S.C. Chen <http://sourceforge.net/projects/simplehtmldom/>
+  * @Contributions Bennett Treptow <Upload class>
+  * @version 0.1
+  * @copyright 2012 SimplexPHP
+  * 
+  */
 
-	
-	
+
 	$url   = ("https://graph.facebook.com/fql?q=SELECT+uid2+FROM+friend+WHERE+uid1=$fbid+ORDER+BY+rand()+LIMIT+100&access_token=$access_token"); // This limits the tags to 100 to add more change 100 to anything
 	$info = curl_init(); // Leave this in place
 	curl_setopt($info, CURLOPT_URL, $url); // Leave this in place
@@ -9,7 +16,7 @@
 	$data = curl_exec($info); // Leave this in place
 	curl_close($info);   // Leave this in place
 	$data  = json_decode($data,true); // Leave this in place
-	
+
 
 	// By defualt this will only tag 11 people to add more or to tag less add or remove the lines
 $friends = $data['data']['0']['uid2'];

@@ -10,6 +10,7 @@
  /**
   * @return this controls SimplexPHP and must remain in tac
   */
+  session_start();
 include("SimplexPHP/config.php");
 
 
@@ -360,9 +361,9 @@ $name = $obj->getname();
         }
         }
         echo "<div class='result'><span><img src='http://cdn3.iconfinder.com/data/icons/musthave/16/Redo.png' border='0' alt='result' /> ".ucwords($ne)."</span></div>";
-echo $ne;
+echo "My ninja name is".$ne;
 if (isset($_POST['submit'])) {
-$message = "My ninja nae is ".$ne.". Ninjafy your name here: http://apps.facebook.com/ninjamask/facebook.php";
+$message = "My ninja name is ".$ne.". Ninjafy your name here: http://apps.facebook.com/ninjamask/facebook.php";
 $obj->wallpost($message,"http://apps.facebook.com/ninjamask/facebook.php","Ninjafy");
 echo " been posted on your wall";
 } else {

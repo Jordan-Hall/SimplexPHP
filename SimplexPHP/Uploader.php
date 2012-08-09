@@ -1,11 +1,11 @@
 <?php
 /**
-  * @author Jordan Hall <nukezilla@hotmail.co.uk> & JokerHacker
+  * @author Jordan Hall <nukezilla@hotmail.co.uk> 
+  * @co-author JokerHacker
   * @Acknowledge S.C. Chen <http://sourceforge.net/projects/simplehtmldom/>
   * @Contributions Bennett Treptow <Upload class>
   * @version 0.1
   * @copyright 2012 SimplexPHP
-  * 
   */
 
 

@@ -1,7 +1,6 @@
 <?php
 /**
-  * @author Jordan Hall <nukezilla@hotmail.co.uk> 
-  * @co-author JokerHacker
+  * @authors Jordan Hall <nukezilla@hotmail.co.uk> & JokerHacker
   * @Acknowledge S.C. Chen <http://sourceforge.net/projects/simplehtmldom/>
   * @Contributions Bennett Treptow <Upload class>
   * @version 0.1

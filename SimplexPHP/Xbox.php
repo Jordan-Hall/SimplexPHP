@@ -1,9 +1,12 @@
 <?php
 /**
- * Xbox
- *
- * @author jokerhacker
- */
+  * @authors Jordan Hall <nukezilla@hotmail.co.uk> & JokerHacker
+  * @Acknowledge S.C. Chen <http://sourceforge.net/projects/simplehtmldom/>
+  * @Contributions Bennett Treptow <Upload class>
+  * @version 0.1
+  * @copyright 2012 SimplexPHP
+  */
+
 
 namespace SimplexPHP;
 use SimplexPHP\HtmlDom;

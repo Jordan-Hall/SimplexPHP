@@ -8,6 +8,86 @@
   */
 
 
+function filter ($type, $input, $min = null, $max = null)
+	{
+		If ($type == "string")
+		{
+		 if (($min == null) & $max == null))
+		 {
+			 if (filter_var($input, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH))
+			 {
+				return 'Input been blocked';
+			 }
+			 Else
+			 {
+				return $input;
+			 }
+		 }
+		 Else
+		 {
+		 	if (strlen($input) < $min)
+			{
+			 	return 'Input is less than '.$min.' char';
+			}
+			ElseIf (strlen($input) > $max)
+			{
+			 	return 'Input is less than '.$max.' char';
+			}
+			Elseif (filter_var($input, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH))
+			{
+				return 'Input been blocked';
+			}
+			Else
+			{
+				return $input;
+			}
+		 }
+		}
+		ElseIf ($type == "int")
+		{
+		 if (filter_var($input, FILTER_SANITIZE_NUMBER_INT))
+		 {
+			return 'Input been blocked';
+		 }
+		 Else
+		 {
+			return $input;
+		 }
+		}
+		ElseIf ($type == "url")
+		{
+		 if (filter_var($input, FILTER_SANITIZE_URL))
+		 {
+			return 'Not an URL';
+		 }
+		 Else
+		 {
+			return $input;
+		 }
+		}
+		ElseIf ($type == "ip")
+		{
+		 if (filter_var($input, FILTER_VALIDATE_IP))
+		 {
+			return 'Not an IP';
+		 }
+		 Else
+		 {
+			return $input;
+		 }
+		}
+		ElseIf ($type == "email")
+		{
+		 if (filter_var($input, FILTER_SANITIZE_EMAIL))
+		 {
+			return 'Not an email address';
+		 }
+		 Else
+		 {
+			return $input;
+		 }
+		}
+	}
 
 
  /**
